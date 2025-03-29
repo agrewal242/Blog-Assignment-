@@ -1,0 +1,55 @@
+<!-- update_post.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Update Post</title>
+  <link rel="stylesheet" href="bulma.min.css" />
+  <script src="update_post.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb is-centered mt-2" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="add_post.html">Add Post</a></li>
+        <li><a href="manage_posts.html">Manage Posts</a></li>
+        <li><a href="blog.html">Blog</a></li>
+      </ul>
+    </nav>
+    <h2 class="title is-1 has-text-centered">Update Post</h2>
+    <div class="notification is-primary is-hidden success-notif">
+      <button class="delete"></button>
+      Post updated successfully!
+    </div>
+    <div class="notification is-danger is-hidden fail-notif">
+      <button class="delete"></button>
+      Something went wrong!
+    </div>
+    <!-- Update Form -->
+    <form id="form">
+      <div class="field">
+        <label class="label">Title</label>
+        <div class="control">
+          <input class="input" type="text" name="title" id="post-title" required />
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Content</label>
+        <div class="control">
+          <textarea class="textarea" name="content" id="post-content" rows="5" required></textarea>
+        </div>
+      </div>
+      <div class="field is-grouped mt-5">
+        <div class="control">
+          <button class="button is-primary" type="submit">Update Post</button>
+        </div>
+        <div class="control">
+          <button class="button is-link" type="reset">Clear</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

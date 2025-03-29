@@ -1,0 +1,26 @@
+<!-- blog.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog</title>
+  <link rel="stylesheet" href="bulma.min.css" />
+  <script src="posts.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb is-centered mt-2" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="add_post.html">Add Post</a></li>
+        <li><a href="manage_posts.html">Manage Posts</a></li>
+        <li class="is-active"><a href="#" aria-current="page">Blog</a></li>
+      </ul>
+    </nav>
+    <h2 class="title is-1 has-text-centered">Blog</h2>
+    <!-- Read-only container -->
+    <div id="blog-posts"></div>
+  </div>
+</body>
+</html>
