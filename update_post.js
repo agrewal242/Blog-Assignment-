@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const postData = await res.json()
         titleEl.value = postData.title
         contentEl.value = postData.content
-        dateEl.value = postData.date
+        dateEl.value = postData.date || ""
       }
     } catch (error) {
       console.error("Error fetching post:", error)
