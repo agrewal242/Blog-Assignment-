@@ -16,7 +16,10 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault()
       const data = new FormData(formEl)
       const objectData = Object.fromEntries(data)
-  
+   
+      const date = new Date()
+      objectData.date = `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
+   
       try {
         const res = await fetch("http://localhost:3000/posts", {
           method: "POST",

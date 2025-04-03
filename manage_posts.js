@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   
       // Create a single-row card for each post
       posts.forEach((post) => {
-        const { id, title, content } = post
+        const { id, title, content, date} = post
   
         // Create a full-width card with margin-bottom
         const cardEl = document.createElement("div")
@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             <!-- Left side: title & content -->
             <div>
               <h3 class="title is-4">${title}</h3>
+              <p class="subtitle is-6">${date || ""}</p>
               <p class="subtitle is-6">${content}</p>
             </div>
   

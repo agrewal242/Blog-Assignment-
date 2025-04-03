@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   
     const titleEl = document.querySelector("#post-title")
     const contentEl = document.querySelector("#post-content")
-  
+    const dateEl = document.querySelector("#post-date")
     // Fetch the existing post data and populate the form
     try {
       const res = await fetch(`http://localhost:3000/posts/${postId}`)
@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const postData = await res.json()
         titleEl.value = postData.title
         contentEl.value = postData.content
+        dateEl.value = postData.date
       }
     } catch (error) {
       console.error("Error fetching post:", error)
@@ -36,6 +37,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       const updatedData = {
         title: titleEl.value,
         content: contentEl.value,
+        date: dateEl.value,
       }
       try {
         const res = await fetch(`http://localhost:3000/posts/${postId}`, {

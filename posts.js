@@ -14,17 +14,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   
       // For each post, create a simple read-only card
       posts.forEach((post) => {
-        const { title, content } = post
+        const { title, content, date } = post
+        console.log(post)
+
         const cardEl = document.createElement("div")
         cardEl.classList.add("card", "mb-3")
-        cardEl.innerHTML = `
-          <div class="card-content">
-            <div class="content">
-              <h3 class="title is-4">${title}</h3>
-              <p class="subtitle is-6">${content}</p>
-            </div>
-          </div>
-        `
+        cardEl.innerHTML =  `
+        <div class="card-content">
+          <h3 class="title is-4">${title}</h3>
+          <p class="subtitle is-6">${date || ""}</p>
+          <p class="subtitle is-6">${content}</p>
+        </div>
+      `;
         blogEl.appendChild(cardEl)
       })
     } catch (error) {

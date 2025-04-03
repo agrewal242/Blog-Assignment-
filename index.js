@@ -19,6 +19,7 @@ app.get('/posts', (req, res) => {
     id,
     title: blogPosts[id].title,
     content: blogPosts[id].content,
+    date: blogPosts[id].date,
   }))
   res.send(postsArray)
 })
@@ -34,12 +35,12 @@ app.get('/posts/:id', (req, res) => {
 
 // POST => create a new post
 app.post('/posts', (req, res) => {
-  const { title, content } = req.body
+  const { title, content, date } = req.body
   if (!title || !content) {
     return res.status(400).send({ error: 'Title and content are required.' })
   }
   const newId = uuidv4()
-  blogPosts[newId] = { title, content }
+  blogPosts[newId] = { title, content, date }
   res.send({ success: true, id: newId })
 })
 
@@ -49,9 +50,9 @@ app.put('/posts/:id', (req, res) => {
   if (!blogPosts[id]) {
     return res.status(404).send({ error: 'Post not found' })
   }
-  const { title, content } = req.body
-  blogPosts[id] = { title, content }
-  res.send({ success: true, post: { id, title, content } })
+  const { title, content,date } = req.body
+  blogPosts[id] = { title, content, date }
+  res.send({ success: true, post: { id, title, content, date } })
 })
 
 // DELETE => remove a post by ID
