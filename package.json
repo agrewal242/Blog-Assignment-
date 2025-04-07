@@ -10,8 +10,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.2",
+    "mongodb": "^6.15.0",
     "uuid": "^11.1.0"
   },
-  "devDependencies": {},
-  "description": ""
+  "description": "npm init npm install express node index.js"
 }

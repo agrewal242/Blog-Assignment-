@@ -1,70 +1,67 @@
-// server.js
-const express = require('express')
-const cors = require('cors')
-const { v4: uuidv4 } = require('uuid')
+const express = require('express');
+const cors = require('cors');
+const { v4: uuidv4 } = require('uuid'); // Using v4 to generate UUIDs
+const { MongoClient } = require('mongodb');
 
-const app = express()
-const port = 3000
+const app = express();
+const port = 3000;
+const mongoURI = "mongodb://localhost:27017";
 
-app.use(cors())
-app.use(express.json())
+let db;
+let collection;
 
-// In-memory store of blog posts
-// { "uuid": { title: "...", content: "..." }, ... }
-const blogPosts = {}
+MongoClient.connect(mongoURI)
+  .then((client) => {
+    db = client.db("posts");
+    collection = db.collection("posts");
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => console.error(err));
 
-// GET all posts => array of { id, title, content }
-app.get('/posts', (req, res) => {
-  const postsArray = Object.keys(blogPosts).map((id) => ({
-    id,
-    title: blogPosts[id].title,
-    content: blogPosts[id].content,
-    date: blogPosts[id].date,
-  }))
-  res.send(postsArray)
-})
+app.use(express.json());
+app.use(cors());
 
-// GET a single post by ID
-app.get('/posts/:id', (req, res) => {
-  const { id } = req.params
-  if (!blogPosts[id]) {
-    return res.status(404).send({ error: 'Post not found' })
+// GET route: Retrieve posts. If a query parameter id is provided, send only that post.
+app.get("/manage_posts", async (req, res) => {
+  if (req.query.id) {
+    const post = await collection.findOne({ _id: req.query.id });
+    res.send(post);
+  } else {
+    const posts = await collection.find().toArray();
+    res.send(posts);
   }
-  res.send({ id, ...blogPosts[id] })
-})
+});
 
-// POST => create a new post
-app.post('/posts', (req, res) => {
-  const { title, content, date } = req.body
-  if (!title || !content) {
-    return res.status(400).send({ error: 'Title and content are required.' })
-  }
-  const newId = uuidv4()
-  blogPosts[newId] = { title, content, date }
-  res.send({ success: true, id: newId })
-})
+// POST route: Add a new post.
+app.post("/manage_posts", async (req, res) => {
+  await collection.insertOne({
+    _id: uuidv4(),
+    ...req.body  // Spread the rest of the keys from the request body
+  });
+  const currPosts = await collection.find().toArray();
+  console.log("Added", currPosts);
+  res.send(currPosts);
+});
 
-// PUT => update an existing post by ID
-app.put('/posts/:id', (req, res) => {
-  const { id } = req.params
-  if (!blogPosts[id]) {
-    return res.status(404).send({ error: 'Post not found' })
-  }
-  const { title, content,date } = req.body
-  blogPosts[id] = { title, content, date }
-  res.send({ success: true, post: { id, title, content, date } })
-})
+// DELETE route: Delete a post by id.
+app.delete("/manage_posts", async (req, res) => {
+ const delPost =  await collection.deleteOne({ _id: req.query.id });
+  const currPosts = await collection.find().toArray();
+  console.log("Deleted", currPosts);
+  res.send(currPosts);
+});
 
-// DELETE => remove a post by ID
-app.delete('/posts/:id', (req, res) => {
-  const { id } = req.params
-  if (!blogPosts[id]) {
-    return res.status(404).send({ error: 'Post not found' })
-  }
-  delete blogPosts[id]
-  res.send({ success: true })
-})
+// PUT route: Update a post by id.
+app.put("/manage_posts", async (req, res) => {
+  const updatedPost = await collection.updateOne(
+    { _id: req.query.id },
+    { $set: req.body }
+  );
+  const currPosts = await collection.find().toArray();
+  console.log("Updated", currPosts);
+  res.send(currPosts);
+});
 
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`)
-})
+  console.log(`Listening on ${port}`);
+});
